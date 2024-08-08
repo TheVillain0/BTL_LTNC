@@ -138,12 +138,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chef.cpp" />
+    <ClCompile Include="Ingredient.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chef.h" />
+    <ClInclude Include="Ingredient.h" />
     <ClInclude Include="Player.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="a80667c0-8679-4a0a-96ca-8788edb98d85.jpeg" />
+    <Image Include="plate_01.png" />
+    <Image Include="Player_10.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
