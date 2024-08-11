@@ -11,7 +11,7 @@ int main()
     Background background("assets/floor.png", window.getSize());
 
     Player player;
-    Chef chef("assets/chef.png", sf::Vector2f(200, 150));
+    Chef chef("assets/chef.png", sf::Vector2f(250, 300));
 
     // Tạo các nguyên liệu
     Ingredient tomato("assets/TomatoDish.png", sf::Vector2f(100, 100), "Tomato");
