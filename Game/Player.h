@@ -10,13 +10,14 @@ class Player
 {
 public:
     Player();
-    void handleInput(float deltaTime);
+    void handleInput(float deltaTime, std::vector<Ingredient*>& ingredients);
     void update(float deltaTime);
     void render(sf::RenderWindow& window);
     void pickUpIngredient(Ingredient& ingredient);
     void deliverIngredient();
     sf::Sprite& getSprite();
-    Ingredient* getHeldIngredient();  
+    Ingredient* getHeldIngredient();
+    sf::FloatRect getBounds() const;  
 
 private:
     sf::Texture defaultTexture;
@@ -27,6 +28,7 @@ private:
     std::unordered_map<std::string, sf::Texture> ingredientTextures;
 
     void loadIngredientTextures();
+    sf::Texture loadTextureWithMask(const std::string& filePath, const sf::Color& maskColor);
 };
 
 #endif

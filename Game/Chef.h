@@ -13,7 +13,7 @@ public:
     void requestIngredient(const std::string& ingredient);
     void receiveIngredient(Ingredient* ingredient);
     void update(float deltaTime);
-    sf::Sprite& getSprite();  // Thêm hàm này
+    sf::Sprite& getSprite();  
 
 private:
     sf::Texture texture;

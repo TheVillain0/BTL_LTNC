@@ -16,6 +16,8 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
     std::string name;
+
+    sf::Texture loadTextureWithMask(const std::string& filePath, const sf::Color& maskColor);
 };
 
 #endif

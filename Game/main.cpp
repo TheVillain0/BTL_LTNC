@@ -2,19 +2,25 @@
 #include "Player.h"
 #include "Chef.h"
 #include "Ingredient.h"
+#include "Background.h"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Cook Time");
 
+    Background background("assets/floor.png", window.getSize());
+
     Player player;
     Chef chef("assets/chef.png", sf::Vector2f(200, 150));
 
     // Tạo các nguyên liệu
-    Ingredient tomato("assets/tomato.png", sf::Vector2f(100, 100), "Tomato");
-    Ingredient meat("assets/meat.png", sf::Vector2f(200, 100), "Meat");
-    Ingredient lettuce("assets/lettuce.png", sf::Vector2f(300, 100), "Lettuce");
-    Ingredient cheese("assets/cheese.png", sf::Vector2f(400, 100), "Cheese");
+    Ingredient tomato("assets/TomatoDish.png", sf::Vector2f(100, 100), "Tomato");
+    Ingredient meat("assets/MeatDish.png", sf::Vector2f(200, 100), "Meat");
+    Ingredient lettuce("assets/LettuceDish.png", sf::Vector2f(300, 100), "Lettuce");
+    Ingredient cheese("assets/CheeseDish.png", sf::Vector2f(400, 100), "Cheese");
+
+    // Danh sách các nguyên liệu
+    std::vector<Ingredient*> ingredients = { &tomato, &meat, &lettuce, &cheese };
 
     sf::Clock clock;
 
@@ -30,28 +36,20 @@ int main()
         sf::Time deltaTime = clock.restart();
         float dt = deltaTime.asSeconds();
 
-        player.handleInput(dt);
+        player.handleInput(dt, ingredients);
         player.update(dt);
         chef.update(dt);
 
         // Kiểm tra xem người chơi có lấy nguyên liệu không
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
-            if (player.getSprite().getGlobalBounds().intersects(tomato.getSprite().getGlobalBounds()))
+            for (auto& ingredient : ingredients)
             {
-                player.pickUpIngredient(tomato);
-            }
-            else if (player.getSprite().getGlobalBounds().intersects(meat.getSprite().getGlobalBounds()))
-            {
-                player.pickUpIngredient(meat);
-            }
-            else if (player.getSprite().getGlobalBounds().intersects(lettuce.getSprite().getGlobalBounds()))
-            {
-                player.pickUpIngredient(lettuce);
-            }
-            else if (player.getSprite().getGlobalBounds().intersects(cheese.getSprite().getGlobalBounds()))
-            {
-                player.pickUpIngredient(cheese);
+                if (player.getSprite().getGlobalBounds().intersects(ingredient->getSprite().getGlobalBounds()))
+                {
+                    player.pickUpIngredient(*ingredient);
+                    break;
+                }
             }
         }
 
@@ -66,6 +64,8 @@ int main()
         }
 
         window.clear();
+        background.render(window);
+
         player.render(window);
         chef.render(window);
         tomato.render(window);
@@ -77,3 +77,4 @@ int main()
 
     return 0;
 }
+
