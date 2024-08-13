@@ -3,6 +3,8 @@
 #include "Chef.h"
 #include "Ingredient.h"
 #include "Background.h"
+#include <iostream>  // Thêm thư viện để hiển thị điểm số
+#include <vector>    // Đảm bảo rằng thư viện vector đã được thêm vào
 
 int main()
 {
@@ -21,6 +23,12 @@ int main()
 
     // Danh sách các nguyên liệu
     std::vector<Ingredient*> ingredients = { &tomato, &meat, &lettuce, &cheese };
+
+    // Tên của các nguyên liệu
+    std::vector<std::string> ingredientNames = { "Tomato", "Meat", "Lettuce", "Cheese" };
+
+    chef.setAvailableIngredients(ingredientNames);
+    chef.requestIngredients(ingredientNames);
 
     sf::Clock clock;
 
@@ -60,6 +68,14 @@ int main()
             {
                 chef.receiveIngredient(player.getHeldIngredient());
                 player.deliverIngredient();
+
+                if (chef.hasAllIngredients())
+                {
+                    chef.resetIngredients();
+                    chef.requestIngredients(ingredientNames);
+                    chef.addScore(1);  // Cộng điểm
+                    std::cout << "Score: " << chef.getScore() << std::endl;  // Hiển thị điểm số
+                }
             }
         }
 
@@ -68,13 +84,12 @@ int main()
 
         player.render(window);
         chef.render(window);
-        tomato.render(window);
-        meat.render(window);
-        lettuce.render(window);
-        cheese.render(window);
+        for (auto& ingredient : ingredients)
+        {
+            ingredient->render(window);
+        }
         window.display();
     }
 
     return 0;
 }
-
