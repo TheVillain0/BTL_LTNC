@@ -16,17 +16,11 @@ Làm theo hướng dẫn trên trang web của SFML để tải về và cài đ
 Biên dịch trò chơi:
 Đảm bảo bạn có trình biên dịch C++ đã được cài đặt. Sử dụng các lệnh sau để biên dịch trò chơi:
 
-sh
-Copy code
-mkdir build
-cd build
-cmake ..
-make
+
 Chạy trò chơi:
 Sau khi biên dịch xong, chạy trò chơi bằng lệnh:
 
-sh
-Copy code
+
 ./CookTime
 Cách chơi
 Di chuyển: Sử dụng các phím mũi tên để di chuyển nhân vật của người chơi xung quanh nhà bếp.
