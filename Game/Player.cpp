@@ -58,6 +58,8 @@ void Player::handleInput(float deltaTime, std::vector<Ingredient*>& ingredients,
         sf::FloatRect chefBounds = chef.getSprite().getGlobalBounds();
         if (playerBounds.intersects(chefBounds))
         {
+
+            handleCollisionWithChef(chef);
           
             canMove = false;
 

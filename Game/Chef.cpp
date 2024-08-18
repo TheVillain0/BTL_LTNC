@@ -154,12 +154,15 @@ void Chef::handleCollisionWithPlayer(Player& player)
             }
 
             state = ChefState::Complete;
+
+            sprite.setTexture(textureComplete);
         }
 
         // Giao nguyên liệu và reset Player
         player.deliverIngredient();
     }
 }
+
 
 
 void Chef::render(sf::RenderWindow& window)

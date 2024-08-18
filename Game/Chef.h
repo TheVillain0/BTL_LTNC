@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef CHEF_H
 #define CHEF_H
@@ -15,9 +15,9 @@
 class Player;
 
 enum class ChefState {
-    Initial,        // Ch?a nh?n nguy�n li?u
-    FirstIngredient, // ?� nh?n m?t nguy�n li?u
-    Complete        // ?� nh?n ?? hai nguy�n li?u
+    Initial,        // Chưa nhận nguyên liệu
+    FirstIngredient, // Đã nhận một nguyên liệu
+    Complete        // Đã nhận đủ hai nguyên liệu
 };
 
 class Chef
@@ -39,10 +39,10 @@ private:
     std::vector<std::string> modelFiles;
     std::string selectRandomModel();
 
-    // ???ng d?n model ?� ch?n
+    // Đường dẫn model đã chọn
     std::string selectedModel;
 
-    // Ph??ng th?c ?? c?p nh?t texture d?a tr�n model ?� ch?n
+    // Phương thức để cập nhật texture dựa trên model đã chọn
     void updateTexturesBasedOnModel();
 };
 
