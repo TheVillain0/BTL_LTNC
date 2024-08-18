@@ -1,6 +1,9 @@
 Cook Time
 "Cook Time" là một trò chơi quản lý nhà bếp 2D được phát triển bằng C++ và SFML. Trong trò chơi này, người chơi sẽ vào vai một đầu bếp cần giao nguyên liệu cho các đầu bếp NPC khác để hoàn thành các món ăn.
 
+![MMeatTomatoChef](https://github.com/user-attachments/assets/dbaff62b-3381-4acb-915c-61cc3df6bb15)
+
+
 Tính năng
 Mẫu đầu bếp được tạo ngẫu nhiên với yêu cầu nguyên liệu độc đáo.
 Phát hiện va chạm và tương tác thời gian thực giữa người chơi và các đầu bếp NPC.
