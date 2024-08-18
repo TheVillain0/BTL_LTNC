@@ -36,4 +36,9 @@ Chiến thắng trò chơi: Giao thành công các nguyên liệu cần thiết 
 Phụ thuộc
 SFML: Thư viện Đa phương tiện Đơn giản và Nhanh (SFML) được sử dụng để vẽ đồ họa, quản lý cửa sổ và xử lý đầu vào.
 Giấy phép
+
+Trò chơi được lấy cảm hứng tham khảo từ các kênh youtube hướng dẫn làm game sfml, ...
+Game Development in C++ with SFML bởi https://www.youtube.com/@MustafaSibaiDev
+Learn Unity Beginner/Intermediate 2024 (FREE COMPLETE Course - Unity Tutorial) bởi https://www.youtube.com/@CodeMonkeyUnity
+....
 Dự án này được cấp phép theo Giấy phép MIT. Xem tệp LICENSE để biết thêm chi tiết.
