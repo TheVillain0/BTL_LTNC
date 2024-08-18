@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -5,12 +7,16 @@
 #include "Ingredient.h"
 #include <unordered_map>
 #include <string>
+#include <vector>
+#include "Chef.h"
+
+class Chef;
 
 class Player
 {
 public:
     Player();
-    void handleInput(float deltaTime, std::vector<Ingredient*>& ingredients);
+    void handleInput(float deltaTime, std::vector<Ingredient*>& ingredients, Chef& chef);
     void update(float deltaTime);
     void render(sf::RenderWindow& window);
     void pickUpIngredient(Ingredient& ingredient);
@@ -18,6 +24,7 @@ public:
     sf::Sprite& getSprite();
     Ingredient* getHeldIngredient();
     sf::FloatRect getBounds() const;  
+    void handleCollisionWithChef(Chef& chef);
 
 private:
     sf::Texture defaultTexture;

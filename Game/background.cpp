@@ -10,7 +10,6 @@ Background::Background(const std::string& textureFile, const sf::Vector2u& windo
     sprite.setTexture(texture);
     sf::Vector2u tileSize = texture.getSize();
 
-    // Tính toán số lượng tile cần thiết để phủ kín cửa sổ
     unsigned int tilesX = windowSize.x / tileSize.x + 1;
     unsigned int tilesY = windowSize.y / tileSize.y + 1;
 

@@ -1,37 +1,49 @@
+#pragma once
+
 #ifndef CHEF_H
 #define CHEF_H
 
 #include <SFML/Graphics.hpp>
-#include <string>
 #include "Ingredient.h"
+#include "Player.h"
+#include <string>
 #include <vector>
+#include <iostream>
 #include <unordered_map>
-#include <iostream> 
+#include <random>
+
+class Player;
+
+enum class ChefState {
+    Initial,        // Ch?a nh?n nguyên li?u
+    FirstIngredient, // ?ã nh?n m?t nguyên li?u
+    Complete        // ?ã nh?n ?? hai nguyên li?u
+};
 
 class Chef
 {
 public:
-    Chef(const std::string& textureFile, const sf::Vector2f& position);
+    Chef(const sf::Vector2f& position, const std::string& initialTexturePath);
+
+    void handleCollisionWithPlayer(Player& player);
     void render(sf::RenderWindow& window);
-    void requestIngredients(const std::vector<std::string>& availableIngredients);
-    void receiveIngredient(Ingredient* ingredient);
-    void update(float deltaTime);
     sf::Sprite& getSprite();
-    bool hasAllIngredients() const;
-    void resetIngredients();
-    void setAvailableIngredients(const std::vector<std::string>& ingredients);
-    int getScore() const;  
-    void addScore(int score);  
 
 private:
-    sf::Texture texture;
+    sf::Texture textureInitial;
+    sf::Texture textureFirstIngredient;
+    sf::Texture textureComplete;
+    ChefState state;
+    std::string firstIngredient;
     sf::Sprite sprite;
-    std::vector<std::string> requestedIngredients;
-    std::unordered_map<std::string, bool> receivedIngredients;
-    bool isWalkingOut;
-    float speed;
-    int score;
-    std::vector<std::string> availableIngredients;
+    std::vector<std::string> modelFiles;
+    std::string selectRandomModel();
+
+    // ???ng d?n model ?ã ch?n
+    std::string selectedModel;
+
+    // Ph??ng th?c ?? c?p nh?t texture d?a trên model ?ã ch?n
+    void updateTexturesBasedOnModel();
 };
 
 #endif

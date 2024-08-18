@@ -2,7 +2,7 @@
 
 Ingredient::Ingredient(const std::string& textureFile, const sf::Vector2f& position, const std::string& name) : name(name)
 {
-    texture = loadTextureWithMask(textureFile, sf::Color::White); // Màu trắng làm mask
+    texture = loadTextureWithMask(textureFile, sf::Color::White); 
     sprite.setTexture(texture);
     sprite.setPosition(position);
 }
@@ -27,7 +27,6 @@ sf::Texture Ingredient::loadTextureWithMask(const std::string& filePath, const s
     sf::Image image;
     if (!image.loadFromFile(filePath))
     {
-        // Xử lý lỗi nếu không tải được ảnh
         throw std::runtime_error("Failed to load image from file: " + filePath);
     }
     image.createMaskFromColor(maskColor); // Tạo mask từ màu nền

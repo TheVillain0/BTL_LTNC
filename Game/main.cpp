@@ -13,7 +13,7 @@ int main()
     Background background("assets/floor.png", window.getSize());
 
     Player player;
-    Chef chef("assets/chef.png", sf::Vector2f(250, 300));
+    Chef chef(sf::Vector2f(500, 300), "");
 
     // Tạo các nguyên liệu
     Ingredient tomato("assets/TomatoDish.png", sf::Vector2f(100, 100), "Tomato");
@@ -27,8 +27,7 @@ int main()
     // Tên của các nguyên liệu
     std::vector<std::string> ingredientNames = { "Tomato", "Meat", "Lettuce", "Cheese" };
 
-    chef.setAvailableIngredients(ingredientNames);
-    chef.requestIngredients(ingredientNames);
+    
 
     sf::Clock clock;
 
@@ -44,9 +43,8 @@ int main()
         sf::Time deltaTime = clock.restart();
         float dt = deltaTime.asSeconds();
 
-        player.handleInput(dt, ingredients);
+        player.handleInput(dt, ingredients, chef);
         player.update(dt);
-        chef.update(dt);
 
         // Kiểm tra xem người chơi có lấy nguyên liệu không
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
@@ -61,23 +59,7 @@ int main()
             }
         }
 
-        // Kiểm tra xem người chơi có giao nguyên liệu cho đầu bếp không
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-        {
-            if (player.getSprite().getGlobalBounds().intersects(chef.getSprite().getGlobalBounds()) && player.getHeldIngredient())
-            {
-                chef.receiveIngredient(player.getHeldIngredient());
-                player.deliverIngredient();
-
-                if (chef.hasAllIngredients())
-                {
-                    chef.resetIngredients();
-                    chef.requestIngredients(ingredientNames);
-                    chef.addScore(1);  // Cộng điểm
-                    std::cout << "Score: " << chef.getScore() << std::endl;  // Hiển thị điểm số
-                }
-            }
-        }
+        
 
         window.clear();
         background.render(window);

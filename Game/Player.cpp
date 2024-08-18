@@ -1,8 +1,9 @@
 ﻿#include "Player.h"
 
+
 Player::Player() : speed(200.0f), heldIngredient(nullptr)
 {
-    defaultTexture = loadTextureWithMask("assets/player.png", sf::Color::White); // Màu trắng
+    defaultTexture = loadTextureWithMask("assets/player.png", sf::Color::White);
     currentTexture = defaultTexture;
     sprite.setTexture(currentTexture);
 
@@ -10,14 +11,15 @@ Player::Player() : speed(200.0f), heldIngredient(nullptr)
 
     sprite.setPosition(400, 300);
 
-    // Load textures for different ingredients
+    // Tải textures cho các nguyên liệu khác nhau
     loadIngredientTextures();
 }
 
-void Player::handleInput(float deltaTime, std::vector<Ingredient*>& ingredients)
+void Player::handleInput(float deltaTime, std::vector<Ingredient*>& ingredients, Chef& chef)
 {
     sf::Vector2f movement(0.0f, 0.0f);
 
+    // Xử lý di chuyển của người chơi
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         movement.x -= speed * deltaTime;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -29,13 +31,14 @@ void Player::handleInput(float deltaTime, std::vector<Ingredient*>& ingredients)
 
     if (movement.x != 0.0f || movement.y != 0.0f)
     {
+        // Tính toán góc quay của người chơi
         float angle = atan2(movement.y, movement.x) * 180 / 3.14159f;
-        sprite.setRotation(angle + 90); // Adjust rotation
+        sprite.setRotation(angle + 90); // Điều chỉnh góc quay
 
-        // Calculate potential new position
+        // Tính toán vị trí mới dự kiến
         sf::Vector2f newPosition = sprite.getPosition() + movement;
 
-        // Check for collisions at the new position
+        // Kiểm tra va chạm tại vị trí mới
         sf::FloatRect playerBounds = sprite.getGlobalBounds();
         playerBounds.left = newPosition.x - sprite.getOrigin().x;
         playerBounds.top = newPosition.y - sprite.getOrigin().y;
@@ -46,22 +49,37 @@ void Player::handleInput(float deltaTime, std::vector<Ingredient*>& ingredients)
             sf::FloatRect ingredientBounds = ingredient->getSprite().getGlobalBounds();
             if (playerBounds.intersects(ingredientBounds))
             {
-                canMove = false; // Prevent movement if collision occurs
+                canMove = false; 
                 break;
             }
         }
 
-        // Only move if no collision
+        // Kiểm tra va chạm với chef
+        sf::FloatRect chefBounds = chef.getSprite().getGlobalBounds();
+        if (playerBounds.intersects(chefBounds))
+        {
+          
+            canMove = false;
+
+            // Giao nguyên liệu cho chef nếu người chơi đang cầm một nguyên liệu
+            if (heldIngredient != nullptr)
+            {
+                deliverIngredient();
+               
+            }
+        }
+
+        // Chỉ di chuyển nếu không có va chạm
         if (canMove)
         {
             sprite.move(movement);
         }
     }
 
-    // Calculate potential new position
+    // Tính toán vị trí mới dự kiến
     sf::Vector2f newPosition = sprite.getPosition() + movement;
 
-    // Handle collision and adjust movement if necessary
+    // Xử lý va chạm và điều chỉnh di chuyển nếu cần
     sf::FloatRect futureBounds = sprite.getGlobalBounds();
     futureBounds.left += movement.x;
     futureBounds.top += movement.y;
@@ -72,7 +90,7 @@ void Player::handleInput(float deltaTime, std::vector<Ingredient*>& ingredients)
 
         if (futureBounds.intersects(ingredientBounds))
         {
-            // Adjust movement to prevent overlap with ingredient
+            // Điều chỉnh di chuyển để ngăn chặn chồng lấp với nguyên liệu
             if (movement.x > 0 && futureBounds.left + futureBounds.width > ingredientBounds.left)
                 movement.x = 0;
             if (movement.x < 0 && futureBounds.left < ingredientBounds.left + ingredientBounds.width)
@@ -82,12 +100,33 @@ void Player::handleInput(float deltaTime, std::vector<Ingredient*>& ingredients)
             if (movement.y < 0 && futureBounds.top < ingredientBounds.top + ingredientBounds.height)
                 movement.y = 0;
 
-            // Change player model to match the ingredient
+            // Thay đổi mô hình của người chơi để khớp với nguyên liệu
             pickUpIngredient(*ingredient);
         }
     }
 
-    // Move the player sprite according to adjusted movement
+    // Kiểm tra va chạm với chef
+    sf::FloatRect chefBounds = chef.getSprite().getGlobalBounds();
+    if (futureBounds.intersects(chefBounds))
+    {
+        // Điều chỉnh di chuyển để ngăn chặn chồng lấp với chef
+        if (movement.x > 0 && futureBounds.left + futureBounds.width > chefBounds.left)
+            movement.x = 0;
+        if (movement.x < 0 && futureBounds.left < chefBounds.left + chefBounds.width)
+            movement.x = 0;
+        if (movement.y > 0 && futureBounds.top + futureBounds.height > chefBounds.top)
+            movement.y = 0;
+        if (movement.y < 0 && futureBounds.top < chefBounds.top + chefBounds.height)
+            movement.y = 0;
+
+        // Giao nguyên liệu cho chef nếu người chơi đang cầm một nguyên liệu
+        if (heldIngredient != nullptr)
+        {
+            deliverIngredient();
+        }
+    }
+
+    // Di chuyển sprite của người chơi theo chuyển động đã điều chỉnh
     sprite.move(movement);
 }
 
@@ -99,12 +138,13 @@ void Player::handleInput(float deltaTime, std::vector<Ingredient*>& ingredients)
 
 
 
+
 void Player::update(float deltaTime)
 {
-    // Ensure the player's sprite is up to date
+    
     sprite.setTexture(currentTexture);
 
-    // The held ingredient should not move; we just change the player's model
+    
 }
 
 
@@ -121,7 +161,7 @@ void Player::pickUpIngredient(Ingredient& ingredient)
 {
     heldIngredient = &ingredient;
 
-    // Change player model based on the ingredient's name
+    // Đổi model player dựa trên nguyên liệu tương ứng
     auto textureIt = ingredientTextures.find(ingredient.getName());
     if (textureIt != ingredientTextures.end())
     {
@@ -132,10 +172,9 @@ void Player::pickUpIngredient(Ingredient& ingredient)
         currentTexture = defaultTexture;
     }
 
-    // Set the player's texture to the new model
+    // Đổi model mới
     sprite.setTexture(currentTexture);
 
-    // Ensure the ingredient stays in place (if needed, set the ingredient's position here)
 }
 
 
@@ -183,4 +222,15 @@ sf::Texture Player::loadTextureWithMask(const std::string& filePath, const sf::C
 sf::FloatRect Player::getBounds() const
 {
     return sprite.getGlobalBounds();
+}
+
+void Player::handleCollisionWithChef(Chef& chef)
+{
+    if (heldIngredient != nullptr)
+    {
+        chef.handleCollisionWithPlayer(*this); // Gọi phương thức handleCollisionWithPlayer của Chef để xử lý giao tiếp
+
+        // Sau khi giao nguyên liệu, reset state của player
+        deliverIngredient();
+    }
 }
