@@ -23,6 +23,7 @@ Biên dịch trò chơi:
 Chạy trò chơi:
 Sau khi biên dịch xong, chạy trò chơi bằng lệnh:
 
+![MeatLettuceChef](https://github.com/user-attachments/assets/abd47452-d941-4db5-9023-766c3b33b051)
 
 ./CookTime
 Cách chơi
